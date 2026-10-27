@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>❤️ 恋爱依恋类型测试 · 36题</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fff5f7 0%, #ffe9f0 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 40px;
+    }
+
+    .test-container {
+      max-width: 640px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 36px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 20px 40px rgba(230, 120, 150, 0.15), 0 6px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #b3405a;
+      text-align: center;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .subhead {
+      text-align: center;
+      color: #b06b7e;
+      font-size: 0.95rem;
+      font-weight: 400;
+      margin-bottom: 22px;
+      border-bottom: 2px dashed #ffc1d2;
+      padding-bottom: 14px;
+    }
+
+    .progress-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff0f3;
+      border-radius: 60px;
+      padding: 8px 14px;
+      margin-bottom: 20px;
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #9e4d65;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      height: 8px;
+      background: #ffd5e0;
+      border-radius: 20px;
+      margin-left: 14px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff94b4, #ff5d8f);
+      border-radius: 20px;
+      transition: width 0.2s ease;
+    }
+
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-bottom: 28px;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: #ffb6c7 #ffeef2;
+    }
+
+    .questions-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .questions-list::-webkit-scrollbar-track {
+      background: #ffeef2;
+      border-radius: 10px;
+    }
+
+    .questions-list::-webkit-scrollbar-thumb {
+      background: #ffb6c7;
+      border-radius: 10px;
+    }
+
+    .question-item {
+      background: #ffffffd6;
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 16px 16px 12px;
+      box-shadow: 0 4px 12px rgba(210, 120, 140, 0.08);
+      border: 1px solid #ffe2ea;
+      transition: all 0.15s;
+    }
+
+    .question-item.answered {
+      border-color: #ffb1c7;
+      background: #fffbfd;
+    }
+
+    .question-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .q-num {
+      font-weight: 700;
+      color: #d44d74;
+      background: #ffe4ec;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .q-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #3d2a31;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .option-label {
+      flex: 1 1 auto;
+      min-width: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7edf0;
+      border-radius: 50px;
+      padding: 10px 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #5b3f49;
+      border: 1.5px solid transparent;
+      transition: all 0.1s;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .option-label.selected {
+      background: #ff8aa8;
+      color: white;
+      border-color: #e15d82;
+      box-shadow: 0 6px 12px rgba(225, 93, 130, 0.25);
+      font-weight: 600;
+    }
+
+    .option-label:active {
+      transform: scale(0.97);
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff759b, #e84d7a);
+      border: none;
+      border-radius: 60px;
+      padding: 18px 12px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.5px;
+      box-shadow: 0 14px 24px rgba(220, 90, 120, 0.35);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      border: 1px solid #ffb8cc;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 6px 12px rgba(220, 90, 120, 0.4);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      transform: none;
+      box-shadow: 0 6px 12px rgba(220, 90, 120, 0.1);
+      pointer-events: none;
+    }
+
+    .result-card {
+      background: #ffffffef;
+      border-radius: 32px;
+      padding: 24px 20px;
+      margin-top: 18px;
+      box-shadow: 0 12px 28px rgba(200, 100, 130, 0.2);
+      border: 1px solid #ffdae5;
+      animation: fadeSlide 0.35s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      text-align: center;
+      color: #b13e60;
+      margin-bottom: 8px;
+    }
+
+    .result-type {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(135deg, #d34e76, #ff7ea2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      background: #fff2f6;
+      padding: 14px 18px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+      font-weight: 500;
+      color: #6b3f4e;
+      font-size: 0.95rem;
+    }
+
+    .score-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .score-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #c13e64;
+    }
+
+    .desc {
+      background: #fff6f9;
+      padding: 18px;
+      border-radius: 24px;
+      color: #3d2630;
+      line-height: 1.6;
+      font-size: 1rem;
+      border-left: 6px solid #ff92ad;
+      margin-bottom: 8px;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 2px solid #ffb0c4;
+      color: #b34b6b;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 60px;
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .reset-btn:active {
+      background: #ffe2eb;
+    }
+
+    .notice {
+      font-size: 0.78rem;
+      color: #b08191;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="test-container" id="testContainer">
+  <h1>💗 依恋类型测试</h1>
+  <div class="subhead">36题 · 了解你的恋爱依恋模式</div>
+
+  <!-- 进度条 -->
+  <div class="progress-area">
+    <span class="progress-text" id="progressText">0 / 36 已答</span>
+    <div class="progress-bar-bg">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <!-- 题目列表 -->
+  <form id="quizForm">
+    <div class="questions-list" id="questionsList">
+      <!-- 通过 JS 动态渲染题目，以保证结构和选项一致性 -->
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn" disabled>✨ 查看我的依恋类型</button>
+  </form>
+
+  <!-- 结果区域（初始隐藏） -->
+  <div id="resultArea" class="hidden"></div>
+  <div class="notice">🔒 所有答案仅用于本次计算，不保存任何数据</div>
+</div>
+
+<script>
+  (function() {
+    // ---------- 36 道题目 (包含题干和所属维度) ----------
+    // 维度: A=焦虑维度, B=回避维度 (每维度18题，混合排列)
+    // 计分规则：选项 1(非常不同意) ~ 5(非常同意) ，1=1分 ... 5=5分
+    // 最终：焦虑得分 = 焦虑维度18题得分之和 (范围18-90)
+    //      回避得分 = 回避维度18题得分之和 (范围18-90)
+    // 类型判定基于中位数 / 标准分，我们采用阈值: 焦虑分≥54 且 回避分<54 → 焦虑型；
+    // 回避分≥54 且 焦虑分<54 → 回避型；两者均<54 → 安全型；两者均≥54 → 恐惧型(害怕型)
+    // 更细腻: 但为了简洁，我们叫安全型, 焦虑型, 回避型, 恐惧型（矛盾型）
+    // 但是题目描述要让人理解，将恐惧型称为“恐惧-回避型”或“矛盾型”。这里采用“恐惧型（矛盾型）”
+
+    const questions = [
+      // 1-36 混合交替出现焦虑和回避题，但为了让测试有效，适当打乱
+      { text: "我担心伴侣不像我那么在乎我。", dim: "A" },
+      { text: "我倾向于不向伴侣表露内心深处的感受。", dim: "B" },
+      { text: "我经常担心伴侣会离开我。", dim: "A" },
+      { text: "我觉得依赖伴侣让我感到不安。", dim: "B" },
+      { text: "我需要伴侣反复保证爱我。", dim: "A" },
+      { text: "我更喜欢保持独立，不依赖伴侣。", dim: "B" },
+      { text: "当伴侣不能及时回复时，我会很焦虑。", dim: "A" },
+      { text: "我很难完全信任伴侣。", dim: "B" },
+      { text: "我害怕被伴侣抛弃。", dim: "A" },
+      { text: "我觉得过于亲密会让我不自在。", dim: "B" },
+      { text: "我渴望与伴侣完全融为一体。", dim: "A" },
+      { text: "我倾向于自己解决问题，而不是找伴侣帮忙。", dim: "B" },
+      { text: "我担心自己不够好，配不上伴侣。", dim: "A" },
+      { text: "我对伴侣的依赖感到不舒服。", dim: "B" },
+      { text: "如果伴侣对我冷淡，我会立刻感到不安。", dim: "A" },
+      { text: "我尽量避免与伴侣过于亲密。", dim: "B" },
+      { text: "我经常需要伴侣的肯定和赞美。", dim: "A" },
+      { text: "我觉得向伴侣敞开心扉是有风险的。", dim: "B" },
+      { text: "我害怕伴侣会找到比我更好的人。", dim: "A" },
+      { text: "我不喜欢伴侣太依赖我。", dim: "B" },
+      { text: "当伴侣不在身边时，我会担心关系会结束。", dim: "A" },
+      { text: "我更喜欢与伴侣保持一定的距离。", dim: "B" },
+      { text: "我很容易因为伴侣的小疏忽而感到受伤。", dim: "A" },
+      { text: "我很少向伴侣表达我需要他/她。", dim: "B" },
+      { text: "我需要伴侣把注意力完全放在我身上。", dim: "A" },
+      { text: "我觉得自己独立处理情绪更安全。", dim: "B" },
+      { text: "我担心伴侣对我的爱不够深。", dim: "A" },
+      { text: "我倾向于避免与伴侣讨论我的真实感受。", dim: "B" },
+      { text: "如果伴侣没有及时回应我，我会胡思乱想。", dim: "A" },
+      { text: "我觉得过于亲密的关系会让人窒息。", dim: "B" },
+      { text: "我经常担心伴侣不再爱我。", dim: "A" },
+      { text: "我很难完全依赖伴侣。", dim: "B" },
+      { text: "我需要伴侣不断证明他/她的爱。", dim: "A" },
+      { text: "我觉得伴侣太亲近时我会想后退。", dim: "B" },
+      { text: "我害怕一个人独处，渴望伴侣陪伴。", dim: "A" },
+      { text: "我宁愿自己扛着也不愿向伴侣求助。", dim: "B" }
+    ];
+
+    // 确认总数36
+    if (questions.length !== 36) console.warn('题目数量不是36');
+
+    // 选项文本
+    const optionLabels = [
+      "非常不同意",
+      "不同意",
+      "中立",
+      "同意",
+      "非常同意"
+    ];
+
+    // 存储用户答案 (索引 0~35 -> 1~5)
+    let answers = new Array(36).fill(0); // 0 表示未选
+
+    // DOM 元素
+    const questionsListEl = document.getElementById('questionsList');
+    const progressText = document.getElementById('progressText');
+    const progressFill = document.getElementById('progressFill');
+    const submitBtn = document.getElementById('submitBtn');
+    const quizForm = document.getElementById('quizForm');
+    const resultArea = document.getElementById('resultArea');
+    const testContainer = document.getElementById('testContainer');
+
+    // 渲染所有题目
+    function renderQuestions() {
+      let html = '';
+      questions.forEach((q, idx) => {
+        const qNum = idx + 1;
+        // 生成选项
+        let optionsHtml = '';
+        for (let opt = 1; opt <= 5; opt++) {
+          const label = optionLabels[opt - 1];
+          // 为每个选项生成唯一的 id
+          const inputId = `q${idx}_opt${opt}`;
+          optionsHtml += `
+            <label class="option-label" for="${inputId}" data-qidx="${idx}" data-opt="${opt}">
+              ${label}
+            </label>
+            <input type="radio" name="q${idx}" id="${inputId}" value="${opt}" data-qidx="${idx}">
+          `;
+        }
+
+        html += `
+          <div class="question-item" data-qidx="${idx}" id="qItem_${idx}">
+            <div class="question-header">
+              <span class="q-num">Q${qNum}</span>
+              <span class="q-text">${q.text}</span>
+            </div>
+            <div class="options">
+              ${optionsHtml}
+            </div>
+          </div>
+        `;
+      });
+      questionsListEl.innerHTML = html;
+
+      // 重新绑定事件 (radio change / label 高亮)
+      // 使用事件委托更可靠
+      // 监听 change 事件（radio 变化）
+      // 但 label 点击也会触发 change，需要同步样式
+    }
+
+    // 更新进度显示
+    function updateProgress() {
+      const answeredCount = answers.filter(v => v !== 0).length;
+      const percent = (answeredCount / 36) * 100;
+      progressText.textContent = `${answeredCount} / 36 已答`;
+      progressFill.style.width = `${percent}%`;
+      // 全部答完才启用提交按钮
+      submitBtn.disabled = answeredCount !== 36;
+    }
+
+    // 清除所有选项的 selected 类 (基于索引)
+    function clearSelectedStyles(qIdx) {
+      const container = document.getElementById(`qItem_${qIdx}`);
+      if (!container) return;
+      const labels = container.querySelectorAll('.option-label');
+      labels.forEach(lbl => lbl.classList.remove('selected'));
+    }
+
+    // 高亮选中项：根据 qIdx 和 opt 设置对应 label
+    function highlightSelected(qIdx, optValue) {
+      const container = document.getElementById(`qItem_${qIdx}`);
+      if (!container) return;
+      const labels = container.querySelectorAll('.option-label');
+      labels.forEach(lbl => {
+        const opt = parseInt(lbl.dataset.opt, 10);
+        if (opt === optValue) {
+          lbl.classList.add('selected');
+        } else {
+          lbl.classList.remove('selected');
+        }
+      });
+      // 同时给 question-item 添加 answered 类
+      const qItem = container;
+      if (optValue > 0) {
+        qItem.classList.add('answered');
+      } else {
+        qItem.classList.remove('answered');
+      }
+    }
+
+    // 重置所有选项（清除选中状态和答案数组）
+    function resetAll() {
+      answers = new Array(36).fill(0);
+      // 清除所有 radio 的选中状态
+      const radios = document.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        radio.checked = false;
+      });
+      // 清除所有高亮
+      for (let i = 0; i < 36; i++) {
+        clearSelectedStyles(i);
+        const item = document.getElementById(`qItem_${i}`);
+        if (item) item.classList.remove('answered');
+      }
+      updateProgress();
+      // 隐藏结果区
+      resultArea.classList.add('hidden');
+      resultArea.innerHTML = '';
+      // 显示表单
+      quizForm.classList.remove('hidden');
+      // 滚动到顶部
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 计算得分和类型
+    function calculateResult() {
+      let anxietyScore = 0; // 焦虑维度(A)
+      let avoidanceScore = 0; // 回避维度(B)
+
+      questions.forEach((q, idx) => {
+        const ans = answers[idx]; // 1-5
+        if (q.dim === 'A') {
+          anxietyScore += ans;
+        } else {
+          avoidanceScore += ans;
+        }
+      });
+
+      // 焦虑维度总分范围18-90，回避范围18-90
+      // 使用54作为分界 (18 + (90-18)*0.5 = 54) 即中位数
+      const highAnxiety = anxietyScore >= 54;
+      const highAvoidance = avoidanceScore >= 54;
+
+      let type = '';
+      let description = '';
+
+      if (!highAnxiety && !highAvoidance) {
+        type = '安全型';
+        description = '你对自己和伴侣都有积极的看法。你能够舒适地享受亲密关系，同时保持独立，信任伴侣，也相信自己值得被爱。你善于沟通，能有效处理关系中的冲突。';
+      } else if (highAnxiety && !highAvoidance) {
+        type = '焦虑型（专注型）';
+        description = '你常常担心伴侣不够爱你，或会离开你。你渴望亲密，但容易过度依赖伴侣的回应来获得安全感。需要频繁的保证和确认，对关系中的小变化敏感。学会自我安抚和建立内在安全感是成长方向。';
+      } else if (!highAnxiety && highAvoidance) {
+        type = '回避型（疏离型）';
+        description = '你重视独立和自给自足，倾向于压抑情感需求，不太愿意依赖伴侣或向伴侣敞开心扉。你可能觉得过于亲密会失去自由。练习表达感受和适度依赖可以帮你建立更深的联结。';
+      } else {
+        type = '恐惧型（矛盾型）';
+        description = '你既渴望亲密又害怕受伤，内心充满矛盾。你担心被拒绝，同时又回避真正的亲近。这种类型常与早期创伤有关，建立稳定、安全的互动模式，寻求心理咨询支持会很有帮助。';
+      }
+
+      return {
+        anxietyScore,
+        avoidanceScore,
+        type,
+        description
+      };
+    }
+
+    // 显示结果
+    function showResult(result) {
+      // 隐藏表单，显示结果卡片
+      quizForm.classList.add('hidden');
+      resultArea.classList.remove('hidden');
+
+      resultArea.innerHTML = `
+        <div class="result-card">
+          <div class="result-title">你的依恋类型</div>
+          <div class="result-type">${result.type}</div>
+          <div class="score-row">
+            <div class="score-item">
+              <span>焦虑维度</span>
+              <span class="score-val">${result.anxietyScore}</span>
+              <span style="font-size:0.7rem; color:#b07b8a;">(18-90)</span>
+            </div>
+            <div class="score-item">
+              <span>回避维度</span>
+              <span class="score-val">${result.avoidanceScore}</span>
+              <span style="font-size:0.7rem; color:#b07b8a;">(18-90)</span>
+            </div>
+          </div>
+          <div class="desc">${result.description}</div>
+          <button class="reset-btn" id="resetBtn">🔄 重新测试</button>
+        </div>
+      `;
+
+      // 绑定重新测试按钮
+      document.getElementById('resetBtn').addEventListener('click', function() {
+        resetAll();
+        // 重新渲染题目确保状态清空 (但已有答案都清了，只需重置UI)
+        // 但答案数组已在resetAll中清空，同时radio清空
+        // 但是radio的checked可能已经在resetAll中清除，但有些label样式?
+        // resetAll已经调用了clearSelectedStyles，但部分label可能还有selected类，再彻底一点
+        // 遍历所有问题清除selected
+        for (let i = 0; i < 36; i++) {
+          clearSelectedStyles(i);
+          const item = document.getElementById(`qItem_${i}`);
+          if (item) item.classList.remove('answered');
+        }
+        // 确保radio全不选中
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        // 重新计算进度
+        updateProgress();
+      });
+    }
+
+    // 事件监听：处理 radio 改变
+    function attachEvents() {
+      // 使用事件委托监听 questionsList 上的 change 事件
+      questionsListEl.addEventListener('change', function(e) {
+        const target = e.target;
+        if (target.tagName === 'INPUT' && target.type === 'radio') {
+          const qIdx = parseInt(target.dataset.qidx, 10);
+          const optValue = parseInt(target.value, 10);
+
+          // 更新答案数组
+          answers[qIdx] = optValue;
+
+          // 更新高亮样式
+          highlightSelected(qIdx, optValue);
+          // 更新进度
+          updateProgress();
+        }
+      });
+
+      // 同时为 label 增加点击反馈 (但 radio 的 change 已足够)
+      // 为防止label点击后radio不触发change (某些浏览器问题)，用click做后备
+      // 但是我们已经在label中for绑定了input，正常会触发change。
+      // 不过为了更稳，可以监听label点击
+      // 但注意：点击label会先触发click，然后radio被选中，接着change。所以不需要额外处理。
+      // 但个别移动端浏览器可能change响应稍慢，但能触发。
+      // 额外确保样式：也可以在点击时先高亮? 但change已经很快。
+
+      // 处理提交
+      quizForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // 再次验证是否全部答完
+        if (answers.includes(0)) {
+          alert('请先完成所有题目哦～');
+          return;
+        }
+
+        // 计算结果
+        const result = calculateResult();
+        showResult(result);
+      });
+    }
+
+    // 初始化
+    function init() {
+      renderQuestions();
+      // 重置 answers 和 UI
+      answers = new Array(36).fill(0);
+      // 清除任何高亮（新渲染后没有高亮）
+      updateProgress();
+      attachEvents();
+    }
+
+    init();
+
+  })();
+</script>
+</body>
+</html>
